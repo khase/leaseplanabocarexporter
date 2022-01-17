@@ -6,6 +6,7 @@ import (
 	"log"
 	"os"
 	"strings"
+	"syscall"
 
 	"github.com/khase/leaseplanabocarexporter/pkg"
 	"github.com/spf13/cobra"
@@ -33,7 +34,7 @@ var (
 
 			if password == "" {
 				fmt.Print("Password: ")
-				bytePassword, err := terminal.ReadPassword(0)
+				bytePassword, err := terminal.ReadPassword(int(syscall.Stdin))
 				if err != nil {
 					log.Fatal(err)
 					os.Exit(1)
