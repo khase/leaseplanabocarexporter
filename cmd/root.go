@@ -11,6 +11,7 @@ import (
 var (
 	// Used for flags.
 	cfgFile string
+	token   string
 
 	rootCmd = &cobra.Command{
 		Use:   "LeaseplanAbocarExporter",
@@ -31,7 +32,9 @@ func init() {
 
 	rootCmd.PersistentFlags().StringVar(&cfgFile, "config", "", "config file (default is $HOME/.leaseplanabocar.yaml)")
 	rootCmd.PersistentFlags().Bool("viper", true, "use Viper for configuration")
+	rootCmd.PersistentFlags().StringVarP(&token, "token", "t", "", "token to be used for auth (can be retrieved using LeaseplanAbocarExporter login)")
 	viper.BindPFlag("useViper", rootCmd.PersistentFlags().Lookup("viper"))
+	viper.BindPFlag("AddressToken", rootCmd.PersistentFlags().Lookup("token"))
 
 	rootCmd.AddCommand(loginCmd)
 	rootCmd.AddCommand(getCmd)
@@ -50,6 +53,8 @@ func initConfig() {
 		viper.AddConfigPath(home)
 		viper.SetConfigType("yaml")
 		viper.SetConfigName(".leaseplanabocar")
+
+		viper.SafeWriteConfigAs(home + "/.leaseplanabocar")
 	}
 
 	viper.AutomaticEnv()
