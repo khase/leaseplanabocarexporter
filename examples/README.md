@@ -4,6 +4,8 @@ all these examples require the following tools to be available in the executing 
 - LeaseplanAbocarExporter (https://github.com/khase/LeaseplanAbocarExporter)
 - FillTemplate (https://github.com/khase/FillTemplate)
 
+Additionally the `LeaseplanAbocarExporter login` command has to be executed beforehand. 
+
 # Info
 
 ## generateExcel
