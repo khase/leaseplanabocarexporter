@@ -6,7 +6,6 @@ all these examples require the following tools to be available in the executing 
 
 Additionally the `LeaseplanAbocarExporter login` command has to be executed beforehand. 
 
-Even trough the scripts are currently only for linux the required tools both have equivilent windows binaries and can be used under windows as well.
 Since the tools are written in golang they can be combiled for a variety of different systems.
 
 # Info
