@@ -1,0 +1,28 @@
+FROM debian
+
+RUN     apt-get update &&\
+        apt-get install -y ca-certificates curl &&\
+        apt-get clean
+
+ARG LeaseplanAbocarExporterVersion=v1.0.0
+ARG FillTemplateVersion=v1.0.0
+
+ADD https://github.com/khase/leaseplanabocarexporter/releases/download/$LeaseplanAbocarExporterVersion/LeaseplanAbocarExporter_linux_amd64 /opt/exporter/LeaseplanAbocarExporter
+ADD https://github.com/khase/FillTemplate/releases/download/$FillTemplateVersion/FillTemplate_linux_amd64 /opt/exporter/FillTemplate
+ADD ./start_flow.sh /opt/exporter/start_flow.sh
+ADD ./useTemplate.sh /opt/exporter/useTemplate.sh
+ADD ./changed.txt.tpl /opt/exporter/changed.txt.tpl
+ADD ./cars.csv.tpl /opt/exporter/cars.csv.tpl
+ADD ./sendNotification.sh /opt/exporter/sendNotification.sh
+
+RUN chmod 555 /opt/exporter/LeaseplanAbocarExporter
+RUN chmod 555 /opt/exporter/FillTemplate
+RUN chmod 555 /opt/exporter/start_flow.sh
+RUN chmod 555 /opt/exporter/useTemplate.sh
+RUN chmod 444 /opt/exporter/changed.txt.tpl
+RUN chmod 444 /opt/exporter/cars.csv.tpl
+RUN chmod 555 /opt/exporter/sendNotification.sh
+
+WORKDIR /opt/exporter/cache
+
+CMD "../start_flow.sh"
