@@ -1,7 +1,6 @@
 package cmd
 
 import (
-	"bytes"
 	"encoding/json"
 	"errors"
 	"io/ioutil"
@@ -66,15 +65,14 @@ var (
 					if changed && executeOnChangeCommand != "" {
 						log.Println("Output changed, executing post command")
 						cmd := exec.Command(executeOnChangeCommand)
-						var out bytes.Buffer
-						cmd.Stdout = &out
+						cmd.Stdout = os.Stdout
+						cmd.Stderr = os.Stderr
 
 						err := cmd.Run()
 						if err != nil {
 							log.Fatalln(err)
 							os.Exit(1)
 						}
-						log.Printf("Command returned:\n%s\n", out.String())
 					}
 				} else {
 					for index, car := range cars {
