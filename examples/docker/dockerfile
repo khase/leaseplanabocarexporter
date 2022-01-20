@@ -4,8 +4,8 @@ RUN     apt-get update &&\
         apt-get install -y ca-certificates curl &&\
         apt-get clean
 
-ARG LeaseplanAbocarExporterVersion=v1.0.0
-ARG FillTemplateVersion=v1.0.0
+ARG LeaseplanAbocarExporterVersion=v1.0.1
+ARG FillTemplateVersion=v1.0.1
 
 ADD https://github.com/khase/leaseplanabocarexporter/releases/download/$LeaseplanAbocarExporterVersion/LeaseplanAbocarExporter_linux_amd64 /opt/exporter/LeaseplanAbocarExporter
 ADD https://github.com/khase/FillTemplate/releases/download/$FillTemplateVersion/FillTemplate_linux_amd64 /opt/exporter/FillTemplate
