@@ -19,14 +19,17 @@
 {{- end -}}
 {{- end -}}
 {{- if gt len($added) 0 }}
-added ({{ len($added) }}):
+*Added ({{ len($added) }})*:
 {{- range $car := $added}}
-    {{ $car.OfferTypeName }} {{ $car.RentalObject.PowerHp }}PS ({{ $car.RentalObject.PriceProducer1 }}€) https://www.leaseplan-abocar.de/offer-details/{{ $car.Ident }}/{{ $car.RentalObject.Ident }}
+    [{{ $car.OfferTypeName }}](https://www.leaseplan-abocar.de/offer-details/{{ $car.Ident }}/{{ $car.RentalObject.Ident }}) {{ $car.RentalObject.PowerHp }}PS ({{ $car.RentalObject.PriceProducer1 }}€)
 {{- end}}
 {{- end}}
 {{- if gt len($removed) 0 }}
-removed ({{ len($removed) }}):
+{{- if gt len($added) 0 }}
+
+{{ end -}}
+*Removed ({{ len($removed) }})*:
 {{- range $car := $removed}}
-    {{ $car.OfferTypeName }} {{ $car.RentalObject.PowerHp }}PS ({{ $car.RentalObject.PriceProducer1 }}€) https://www.leaseplan-abocar.de/offer-details/{{ $car.Ident }}/{{ $car.RentalObject.Ident }}
+    [{{ $car.OfferTypeName }}](https://www.leaseplan-abocar.de/offer-details/{{ $car.Ident }}/{{ $car.RentalObject.Ident }}) {{ $car.RentalObject.PowerHp }}PS ({{ $car.RentalObject.PriceProducer1 }}€)
 {{- end}}
 {{- end}}
