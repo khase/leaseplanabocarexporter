@@ -8,6 +8,20 @@ Additionally the `LeaseplanAbocarExporter login` command has to be executed befo
 
 Since the tools are written in golang they can be combiled for a variety of different systems.
 
+# Test Setup
+
+The prebuild scripts are build with the following Setup in mind:
+- Checkout both Repositories in one folder.
+- Copy your platforms binary into its root.
+- call the scripts from this folders cli `./LeaseplanAbocarExporter/examples/generateExcel.sh` (works the same under windows with the .ps1 scripts)
+
+```
+- /LeaseplanAbocarExporter/.... (the Repository)
+- /FillTemplate/.... (this Repository is optional)
+- /LeaseplanAbocarExporter (the Binary)
+- /FillTemplate (the Binary)
+```
+
 # Info
 
 ## generateExcel
