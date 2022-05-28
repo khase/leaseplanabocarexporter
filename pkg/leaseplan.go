@@ -12,7 +12,41 @@ import (
 	"github.com/khase/leaseplanabocarexporter/dto"
 )
 
-func GetCarPage(token string, page int, count int) (dto.CarResponse, error) {
+func GetAllCars(token string, page int, count int) ([]dto.Item, error) {
+	fullCarList := []dto.Item{}
+
+	pageIndex := 1
+
+	for {
+		page, err := getCarPage(token, pageIndex, count)
+
+		if err != nil {
+			return nil, err
+		}
+
+		if len(page.Items) == 0 {
+			break
+		}
+
+		fullCarList = append(fullCarList, page.Items...)
+
+		pageIndex++
+	}
+
+	return fullCarList, nil
+}
+
+func GetPageItems(token string, page int, count int) ([]dto.Item, error) {
+	pageResponse, err := getCarPage(token, page, count)
+
+	if err != nil {
+		return nil, err
+	}
+
+	return pageResponse.Items, nil
+}
+
+func getCarPage(token string, page int, count int) (dto.CarResponse, error) {
 	data := dto.CarRequest{
 		Bookmark:     false,
 		ItemsPerPage: count,

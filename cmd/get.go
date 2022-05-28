@@ -42,9 +42,9 @@ var (
 				var err error
 
 				if all {
-					cars, err = getAllCars(token)
+					cars, err = pkg.GetAllCars(token, page, count)
 				} else {
-					cars, err = getSinglePage(token)
+					cars, err = pkg.GetPageItems(token, page, count)
 				}
 
 				log.Println("Loading car list...")
@@ -167,38 +167,4 @@ func readFile(name string) (string, error) {
 	}
 
 	return string(b), nil
-}
-
-func getSinglePage(token string) ([]dto.Item, error) {
-	page, err := pkg.GetCarPage(token, page, count)
-
-	if err != nil {
-		return nil, err
-	}
-
-	return page.Items, nil
-}
-
-func getAllCars(token string) ([]dto.Item, error) {
-	fullCarList := []dto.Item{}
-
-	pageIndex := 1
-
-	for {
-		page, err := pkg.GetCarPage(token, pageIndex, count)
-
-		if err != nil {
-			return nil, err
-		}
-
-		if len(page.Items) == 0 {
-			break
-		}
-
-		fullCarList = append(fullCarList, page.Items...)
-
-		pageIndex++
-	}
-
-	return fullCarList, nil
 }
