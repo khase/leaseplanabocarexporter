@@ -82,5 +82,6 @@ type Item struct {
 	ExternalSourceID             interface{}        `json:"ExternalSourceId"`
 	UseOfferTypePriceTemplate    bool               `json:"UseOfferTypePriceTemplate"`
 	MappedTarifgroup             interface{}        `json:"MappedTarifgroup"`
-	Ident                        string             `json:"Ident"`
+	Ident                        string             `json:"Ident"`            
+	SalaryWaiver                 float64            `json:"SalaryWaiver"`  
 }
