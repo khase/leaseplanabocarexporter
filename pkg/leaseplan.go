@@ -9,7 +9,38 @@ import (
 	"net/http"
 	"strings"
 
+	"github.com/prometheus/client_golang/prometheus"
+	"github.com/prometheus/client_golang/prometheus/promauto"
+
 	"github.com/khase/leaseplanabocarexporter/dto"
+)
+
+var (
+	leaseplanRequestCount = promauto.NewCounterVec(
+		prometheus.CounterOpts{
+			Name: "lpexport_request_count",
+			Help: "Number of requests sent to the lp API",
+		},
+		[]string{
+			"endpoint",
+			"statusCode",
+		})
+	leaseplanDataSent = promauto.NewCounterVec(
+		prometheus.CounterOpts{
+			Name: "lpexport_data_sent",
+			Help: "Total data sent to the lp API",
+		},
+		[]string{
+			"endpoint",
+		})
+	leaseplanDataRecieved = promauto.NewCounterVec(
+		prometheus.CounterOpts{
+			Name: "lpexport_data_recieved",
+			Help: "Total data recieved from the lp API",
+		},
+		[]string{
+			"endpoint",
+		})
 )
 
 func GetAllCars(token string, page int, count int) ([]dto.Item, error) {
@@ -69,6 +100,21 @@ func getCarPage(token string, page int, count int) (dto.CarResponse, error) {
 	return res, nil
 }
 
+func GetUserInfo(token string) (dto.UserInfo, error) {
+	resp, err := doGet(
+		"https://rowebapiservice-autoabo.azurewebsites.net/api/carcharter/v1/CustomerArea/GetAddressData?ROType=carch--prd&shopSubdomain=leaseplan-abocar",
+		token)
+
+	if err != nil {
+		return dto.UserInfo{}, err
+	}
+
+	var res dto.UserInfo
+	json.NewDecoder(resp.Body).Decode(&res)
+
+	return res, nil
+}
+
 func GetToken(mail string, pass string) (string, error) {
 	var res dto.LoginResponse
 
@@ -101,14 +147,22 @@ func login(mail string, pass string) (dto.LoginResponse, error) {
 	return res, nil
 }
 
+func doGet(url string, token string) (*http.Response, error) {
+	return doApiCall(url, "GET", nil, token)
+}
+
 func doPostJson(url string, data interface{}, token string) (*http.Response, error) {
+	return doApiCall(url, "POST", data, token)
+}
+
+func doApiCall(url string, method string, data interface{}, token string) (*http.Response, error) {
 	json_data, err := json.Marshal(data)
 
 	if err != nil {
 		return nil, err
 	}
 
-	req, err := http.NewRequest("POST", url, bytes.NewBuffer(json_data))
+	req, err := http.NewRequest(method, url, bytes.NewBuffer(json_data))
 
 	if err != nil {
 		return nil, err
@@ -121,6 +175,14 @@ func doPostJson(url string, data interface{}, token string) (*http.Response, err
 	}
 
 	resp, err := http.DefaultClient.Do(req)
+
+	leaseplanRequestCount.WithLabelValues(url, resp.Status).Inc()
+	if req.ContentLength > 0 {
+		leaseplanDataSent.WithLabelValues(url).Add(float64(req.ContentLength))
+	}
+	if resp.ContentLength > 0 {
+		leaseplanDataRecieved.WithLabelValues(url).Add(float64(resp.ContentLength))
+	}
 
 	if err != nil {
 		return nil, err

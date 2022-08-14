@@ -38,6 +38,7 @@ func init() {
 
 	rootCmd.AddCommand(loginCmd)
 	rootCmd.AddCommand(getCmd)
+	rootCmd.AddCommand(userInfoCmd)
 }
 
 func initConfig() {
