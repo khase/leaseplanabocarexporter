@@ -180,9 +180,6 @@ func doApiCall(url string, method string, data interface{}, token string) (*http
 	if req.ContentLength > 0 {
 		leaseplanDataSent.WithLabelValues(url).Add(float64(req.ContentLength))
 	}
-	if resp.ContentLength > 0 {
-		leaseplanDataRecieved.WithLabelValues(url).Add(float64(resp.ContentLength))
-	}
 
 	if err != nil {
 		return nil, err
@@ -191,6 +188,9 @@ func doApiCall(url string, method string, data interface{}, token string) (*http
 	if resp.StatusCode != 200 {
 		buf := new(strings.Builder)
 		_, err := io.Copy(buf, resp.Body)
+		if buf.Len() > 0 {
+			leaseplanDataRecieved.WithLabelValues(url).Add(float64(buf.Len()))
+		}
 		if err != nil {
 			return nil, err
 		}
