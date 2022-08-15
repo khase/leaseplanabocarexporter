@@ -85,32 +85,30 @@ func getCarPage(token string, page int, count int) (dto.CarResponse, error) {
 		OrderBy:      "DateRegistration",
 		Page:         page}
 
-	resp, err := doPostJson(
+	var res dto.CarResponse
+	err := doPostJson(
 		"https://rowebapiservice-autoabo.azurewebsites.net/api/carcharter/v1/Shop/SearchOfferTypes?ROType=carch--prd&shopSubdomain=leaseplan-abocar",
 		data,
-		token)
+		token,
+		&res)
 
 	if err != nil {
 		return dto.CarResponse{}, err
 	}
 
-	var res dto.CarResponse
-	json.NewDecoder(resp.Body).Decode(&res)
-
 	return res, nil
 }
 
 func GetUserInfo(token string) (dto.UserInfo, error) {
-	resp, err := doGet(
+	var res dto.UserInfo
+	err := doGet(
 		"https://rowebapiservice-autoabo.azurewebsites.net/api/carcharter/v1/CustomerArea/GetAddressData?ROType=carch--prd&shopSubdomain=leaseplan-abocar",
-		token)
+		token,
+		&res)
 
 	if err != nil {
 		return dto.UserInfo{}, err
 	}
-
-	var res dto.UserInfo
-	json.NewDecoder(resp.Body).Decode(&res)
 
 	return res, nil
 }
@@ -132,40 +130,39 @@ func GetToken(mail string, pass string) (string, error) {
 
 func login(mail string, pass string) (dto.LoginResponse, error) {
 	data := map[string]string{"Email": mail, "Password": pass}
-	resp, err := doPostJson(
+	var res dto.LoginResponse
+	err := doPostJson(
 		"https://rowebapiservice-autoabo.azurewebsites.net/api/carcharter/v1/Shop/Login?ROType=carch--prd&shopSubdomain=leaseplan-abocar",
 		data,
-		"")
+		"",
+		&res)
 
 	if err != nil {
 		return dto.LoginResponse{}, err
 	}
 
-	var res dto.LoginResponse
-	json.NewDecoder(resp.Body).Decode(&res)
-
 	return res, nil
 }
 
-func doGet(url string, token string) (*http.Response, error) {
-	return doApiCall(url, "GET", nil, token)
+func doGet(url string, token string, responseObject any) error {
+	return doApiCall(url, "GET", nil, token, responseObject)
 }
 
-func doPostJson(url string, data interface{}, token string) (*http.Response, error) {
-	return doApiCall(url, "POST", data, token)
+func doPostJson(url string, data interface{}, token string, responseObject any) error {
+	return doApiCall(url, "POST", data, token, responseObject)
 }
 
-func doApiCall(url string, method string, data interface{}, token string) (*http.Response, error) {
+func doApiCall(url string, method string, data interface{}, token string, responseObject any) error {
 	json_data, err := json.Marshal(data)
 
 	if err != nil {
-		return nil, err
+		return err
 	}
 
 	req, err := http.NewRequest(method, url, bytes.NewBuffer(json_data))
 
 	if err != nil {
-		return nil, err
+		return err
 	}
 
 	req.Header.Set("Content-Type", "application/json")
@@ -182,7 +179,7 @@ func doApiCall(url string, method string, data interface{}, token string) (*http
 	}
 
 	if err != nil {
-		return nil, err
+		return err
 	}
 
 	buf := new(strings.Builder)
@@ -193,10 +190,12 @@ func doApiCall(url string, method string, data interface{}, token string) (*http
 
 	if resp.StatusCode != 200 {
 		if err != nil {
-			return nil, err
+			return err
 		}
-		return nil, errors.New(buf.String())
+		return errors.New(buf.String())
 	}
 
-	return resp, nil
+	err = json.Unmarshal([]byte(buf.String()), &responseObject)
+
+	return nil
 }
