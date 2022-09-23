@@ -55,4 +55,5 @@ type RentalObject struct {
 	WinterTyres             interface{}        `json:"WinterTyres"`
 	ExternalTariffGroup     interface{}        `json:"ExternalTariffGroup"`
 	Ident                   string             `json:"Ident"`
+	Clutch                  bool               `json:"Clutch"`
 }
