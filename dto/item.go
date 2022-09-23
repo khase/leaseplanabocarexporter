@@ -84,4 +84,5 @@ type Item struct {
 	MappedTarifgroup             interface{}        `json:"MappedTarifgroup"`
 	Ident                        string             `json:"Ident"`            
 	SalaryWaiver                 float64            `json:"SalaryWaiver"`  
+	Clutch                       bool               `json:"Clutch"`
 }
