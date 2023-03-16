@@ -8,6 +8,7 @@ import (
 	"io"
 	"net/http"
 	"strings"
+	"time"
 
 	"github.com/prometheus/client_golang/prometheus"
 	"github.com/prometheus/client_golang/prometheus/promauto"
@@ -24,6 +25,14 @@ var (
 		[]string{
 			"endpoint",
 			"statusCode",
+		})
+	leaseplanRequestTime = promauto.NewGaugeVec(
+		prometheus.GaugeOpts{
+			Name: "lpexport_request_time",
+			Help: "The duration in ms the leaseplan request took to finish",
+		},
+		[]string{
+			"endpoint",
 		})
 	leaseplanDataSent = promauto.NewCounterVec(
 		prometheus.CounterOpts{
@@ -171,7 +180,12 @@ func doApiCall(url string, method string, data interface{}, token string, respon
 		req.Header.Set("Address-Token", token)
 	}
 
+	startTime := time.Now()
+
 	resp, err := http.DefaultClient.Do(req)
+
+	requestDuration := time.Since(startTime)
+	leaseplanRequestTime.WithLabelValues(url).Set(float64(requestDuration.Milliseconds()))
 
 	leaseplanRequestCount.WithLabelValues(url, resp.Status).Inc()
 	if req.ContentLength > 0 {
