@@ -18,7 +18,7 @@ import (
 
 var (
 	// limits concurrent requests -> bot detection prevention
-	parallelRequests = make(chan bool, 2)
+	parallelRequests = make(chan bool, 3)
 
 	leaseplanRequestCount = promauto.NewCounterVec(
 		prometheus.CounterOpts{
@@ -167,6 +167,14 @@ func doPostJson(url string, data interface{}, token string, responseObject any) 
 func doApiCall(url string, method string, data interface{}, token string, responseObject any) error {
 	// block request method
 	parallelRequests <- true
+
+	defer func() {
+		go func() {
+			// unblock request method after some time
+			time.Sleep(20 * time.Second)
+			<-parallelRequests
+		}()
+	}()
 	//---------------------
 
 	json_data, err := json.Marshal(data)
@@ -217,12 +225,6 @@ func doApiCall(url string, method string, data interface{}, token string, respon
 	}
 
 	err = json.Unmarshal([]byte(buf.String()), &responseObject)
-
-	go func() {
-		// unblock request method after some time
-		time.Sleep(2 * time.Second)
-		<-parallelRequests
-	}()
 
 	return nil
 }
