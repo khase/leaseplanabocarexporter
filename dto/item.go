@@ -1,7 +1,5 @@
 package dto
 
-import "time"
-
 type Item struct {
 	ReadonlyProperties           ReadonlyProperties `json:"ReadonlyProperties"`
 	RentalObject                 RentalObject       `json:"RentalObject"`
@@ -16,7 +14,7 @@ type Item struct {
 	IsCO2Payback                 bool               `json:"IsCO2Payback"`
 	MinMileage                   int                `json:"MinMileage"`
 	MaxMileage                   int                `json:"MaxMileage"`
-	CreatedDate                  time.Time          `json:"CreatedDate"`
+	CreatedDate                  MyTime          `json:"CreatedDate"`
 	ExternalTariffGroup          interface{}        `json:"ExternalTariffGroup"`
 	TarifElementIdents           interface{}        `json:"TarifElementIdents"`
 	ImageIdents                  []string           `json:"ImageIdents"`

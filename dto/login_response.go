@@ -1,7 +1,5 @@
 package dto
 
-import "time"
-
 type LoginResponse struct {
 	Content struct {
 		AddressRole struct {
@@ -13,7 +11,7 @@ type LoginResponse struct {
 		AddressToken               string      `json:"AddressToken"`
 		AdrGroup                   interface{} `json:"AdrGroup"`
 		AdrNo                      string      `json:"AdrNo"`
-		Birth                      time.Time   `json:"Birth"`
+		Birth                      MyTime   `json:"Birth"`
 		CO2MaxOverpayment          int         `json:"CO2MaxOverpayment"`
 		CO2MaxRepayment            int         `json:"CO2MaxRepayment"`
 		CO2PricePerGramOverpayment int         `json:"CO2PricePerGramOverpayment"`
@@ -89,7 +87,7 @@ type LoginResponse struct {
 		InvoiceReceiver       interface{} `json:"InvoiceReceiver"`
 		Licauthor             string      `json:"Licauthor"`
 		Licclasses            string      `json:"Licclasses"`
-		Licdate               time.Time   `json:"Licdate"`
+		Licdate               MyTime   `json:"Licdate"`
 		Licno                 string      `json:"Licno"`
 		Name1                 string      `json:"Name1"`
 		Name2                 interface{} `json:"Name2"`
@@ -106,7 +104,7 @@ type LoginResponse struct {
 					ImageIdent string    `json:"ImageIdent"`
 					ImageLink  string    `json:"ImageLink"`
 					Text       string    `json:"Text"`
-					UploadDate time.Time `json:"UploadDate"`
+					UploadDate MyTime `json:"UploadDate"`
 				} `json:"CompanyLogo"`
 				CreditratingDateTime      interface{}   `json:"CreditratingDateTime"`
 				CreditratingLabel         interface{}   `json:"CreditratingLabel"`

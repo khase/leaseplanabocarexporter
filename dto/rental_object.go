@@ -1,7 +1,5 @@
 package dto
 
-import "time"
-
 type RentalObject struct {
 	ReadonlyProperties      ReadonlyProperties `json:"ReadonlyProperties"`
 	ChassisNo               interface{}        `json:"ChassisNo"`
@@ -12,8 +10,8 @@ type RentalObject struct {
 	CarModell               string             `json:"CarModell"`
 	CarModellspec           string             `json:"CarModellspec"`
 	DateLicense             interface{}        `json:"DateLicense"`
-	DateRegistration        time.Time          `json:"DateRegistration"`
-	DateUnregister          time.Time          `json:"DateUnregister"`
+	DateRegistration        MyTime          `json:"DateRegistration"`
+	DateUnregister          MyTime          `json:"DateUnregister"`
 	DateBuy                 interface{}        `json:"DateBuy"`
 	KindOfGear              string             `json:"KindOfGear"`
 	KindOfFuel              string             `json:"KindOfFuel"`
@@ -27,7 +25,7 @@ type RentalObject struct {
 	NoOfSeats               int                `json:"NoOfSeats"`
 	NoOfDoors               int                `json:"NoOfDoors"`
 	NoOfGears               interface{}        `json:"NoOfGears"`
-	CapacityCylinder        CapacityCylinder   `json:"CapacityCylinder"`
+	CapacityCylinder        int   `json:"CapacityCylinder"`
 	Equipment               []string           `json:"Equipment"`
 	Color                   string             `json:"Color"`
 	ColorFamily             string             `json:"ColorFamily"`

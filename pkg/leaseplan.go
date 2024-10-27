@@ -93,13 +93,13 @@ func getCarPage(token string, page int, count int) (dto.CarResponse, error) {
 	data := dto.CarRequest{
 		Bookmark:     false,
 		ItemsPerPage: count,
-		OrderAsc:     false,
+		OrderAsc:     true,
 		OrderBy:      "DateRegistration",
 		Page:         page}
 
 	var res dto.CarResponse
 	err := doPostJson(
-		"https://rowebapiservice-autoabo.azurewebsites.net/api/carcharter/v1/Shop/SearchOfferTypes?ROType=carch--prd&shopSubdomain=leaseplan-abocar",
+		"https://api.prod.nrp.kms.berlin/v1/mobilityOffer?ROType=carch--prd&ShopSubdomain=&Language=de-de",
 		data,
 		token,
 		&res)
@@ -114,7 +114,7 @@ func getCarPage(token string, page int, count int) (dto.CarResponse, error) {
 func GetUserInfo(token string) (dto.UserInfo, error) {
 	var res dto.UserInfo
 	err := doGet(
-		"https://rowebapiservice-autoabo.azurewebsites.net/api/carcharter/v1/CustomerArea/GetAddressData?ROType=carch--prd&shopSubdomain=leaseplan-abocar",
+		"https://api.prod.nrp.kms.berlin/v1/user/address?ROType=carch--prd&ShopSubdomain=&Language=de-de",
 		token,
 		&res)
 
@@ -144,7 +144,7 @@ func login(mail string, pass string) (dto.LoginResponse, error) {
 	data := map[string]string{"Email": mail, "Password": pass}
 	var res dto.LoginResponse
 	err := doPostJson(
-		"https://rowebapiservice-autoabo.azurewebsites.net/api/carcharter/v1/Shop/Login?ROType=carch--prd&shopSubdomain=leaseplan-abocar",
+		"https://api.prod.nrp.kms.berlin/v1/user/login?ROType=carch--prd&ShopSubdomain=&Language=de-de",
 		data,
 		"",
 		&res)
@@ -225,6 +225,10 @@ func doApiCall(url string, method string, data interface{}, token string, respon
 	}
 
 	err = json.Unmarshal([]byte(buf.String()), &responseObject)
+
+	if err != nil {
+		return err
+	}
 
 	return nil
 }
