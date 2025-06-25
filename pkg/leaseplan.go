@@ -74,6 +74,9 @@ func GetAllCars(token string, page int, count int) ([]dto.Item, error) {
 		fullCarList = append(fullCarList, page.Items...)
 
 		pageIndex++
+
+		// rn one page always returns all available cars
+		break
 	}
 
 	return fullCarList, nil
