@@ -76,7 +76,7 @@ var (
 					}
 				} else {
 					for index, car := range cars {
-						log.Println(strconv.Itoa(index+1) + ") " + car.OfferTypeName + " - " + strconv.Itoa(car.RentalObject.PowerHp) + "HP (" + strconv.Itoa(int(car.RentalObject.PriceProducer1)) + "€)")
+						log.Println(strconv.Itoa(index+1) + ") \t" + strconv.Itoa(car.VehiclesCount) + "x \t" + car.OfferTypeName + " - " + strconv.Itoa(int(car.RentalObject.PowerHP)) + "HP (" + strconv.Itoa(int(car.RentalObject.PriceProducer1)) + "€)")
 					}
 				}
 
