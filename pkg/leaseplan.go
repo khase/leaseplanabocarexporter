@@ -236,5 +236,9 @@ func doApiCall(url string, method string, data interface{}, token string, respon
 		return err
 	}
 
+	if err != nil {
+		return err
+	}
+
 	return nil
 }

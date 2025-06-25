@@ -257,3 +257,15 @@ Using the `output` flag will write the complete result json object to the disc i
     "Ident": ""
   }
 ```
+
+# Buidl
+
+## For Linux
+```bash
+env GOOS=linux GOARCH=amd64 go build -o build/ ./LeaseplanAbocarExporter.go
+```
+
+## For Windows
+```bash
+env GOOS=windows GOARCH=amd64 go build -o build/ ./LeaseplanAbocarExporter.go
+```
