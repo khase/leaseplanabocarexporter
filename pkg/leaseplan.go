@@ -99,6 +99,28 @@ func getCarPage(token string, page int, count int) (dto.GroupedResponse, error) 
 
 	var res dto.GroupedResponse
 	err := doPostJson(
+		"https://api.prod.nrp.kms.berlin/v1/mobilityOffer?ROType=&ShopSubdomain=&Language=de-de",
+		data,
+		token,
+		&res)
+
+	if err != nil {
+		return dto.GroupedResponse{}, err
+	}
+
+	return res, nil
+}
+
+func getGroupedCars(token string, page int, count int) (dto.GroupedResponse, error) {
+	data := dto.GroupedRequest{
+		Bookmark:  false,
+		DateField: "DateRegistration",
+		OrderAsc:  false,
+		OrderBy:   "DateRegistration",
+		Page:      page}
+
+	var res dto.GroupedResponse
+	err := doPostJson(
 		"https://api.prod.nrp.kms.berlin/v1/mobilityOffer/grouped?ROType=&ShopSubdomain=&Language=de-de",
 		data,
 		token,
