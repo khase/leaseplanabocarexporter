@@ -26,7 +26,7 @@ type UserInfo struct {
 	Newsletter                 bool                    `json:"Newsletter"`
 	Birth                      string                  `json:"Birth"`
 	Licno                      string                  `json:"Licno"`
-	Licdate                    string                  `json:"Licdate"`
+	Licdate                    MyTime                  `json:"Licdate"`
 	Licauthor                  string                  `json:"Licauthor"`
 	Licclasses                 string                  `json:"Licclasses"`
 	Passno                     interface{}             `json:"Passno"`
@@ -166,7 +166,7 @@ type CompanyLogo struct {
 	ImageIdent string `json:"ImageIdent"`
 	Text       string `json:"Text"`
 	Filename   string `json:"Filename"`
-	UploadDate string `json:"UploadDate"`
+	UploadDate MyTime `json:"UploadDate"`
 }
 
 type PaymentCondition struct {

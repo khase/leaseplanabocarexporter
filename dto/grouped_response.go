@@ -78,7 +78,7 @@ type Item struct {
 	Stations                     []Station    `json:"Stations"`
 	MinMileage                   *int64       `json:"MinMileage"`
 	MaxMileage                   *int64       `json:"MaxMileage"`
-	CreatedDate                  string       `json:"CreatedDate"`
+	CreatedDate                  MyTime       `json:"CreatedDate"`
 	ExternalTariffGroup          interface{}  `json:"ExternalTariffGroup"`
 	TarifElementIdents           interface{}  `json:"TarifElementIdents"`
 	ImageIdents                  []string     `json:"ImageIdents"`
@@ -160,8 +160,8 @@ type RentalObject struct {
 	CarModell                    string             `json:"CarModell"`
 	CarModellspec                *string            `json:"CarModellspec"`
 	DateLicense                  interface{}        `json:"DateLicense"`
-	DateRegistration             string             `json:"DateRegistration"`
-	DateUnregister               string             `json:"DateUnregister"`
+	DateRegistration             MyTime             `json:"DateRegistration"`
+	DateUnregister               MyTime             `json:"DateUnregister"`
 	DateBuy                      interface{}        `json:"DateBuy"`
 	KindOfGear                   KindOfGear         `json:"KindOfGear"`
 	KindOfFuel                   KindOfFuel         `json:"KindOfFuel"`

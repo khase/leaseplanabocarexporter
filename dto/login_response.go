@@ -12,7 +12,7 @@ type Address struct {
 	Salut         string      `json:"Salut"`
 	FirstName     string      `json:"FirstName"`
 	LastName      string      `json:"LastName"`
-	DateOfBirth   string      `json:"DateOfBirth"`
+	DateOfBirth   MyTime      `json:"DateOfBirth"`
 	Email         string      `json:"Email"`
 	Phone         string      `json:"Phone"`
 	Street        string      `json:"Street"`
