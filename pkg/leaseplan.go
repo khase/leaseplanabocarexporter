@@ -218,11 +218,13 @@ func doApiCall(url string, method string, data interface{}, token string, respon
 	}
 
 	req.Header.Set("Content-Type", "application/json")
-	req.Header.Set("origin", "https://www.leaseplan-abocar.de")
+	req.Header.Set("origin", "https://www.ayvens-autoabo.de")
 
 	if len(token) > 0 {
 		req.Header.Set("Address-Token", token)
 	}
+
+	//fmt.Println("Request Headers: " + fmt.Sprintf("%v", req.Header))
 
 	startTime := time.Now()
 
